@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Earnest Verdict — How Much Earnest Money Is Enough?</title>
+<meta name="description" content="Price earnest money honestly: competitiveness vs cash you lose if you walk. Find the smallest deposit that wins without overexposing you.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-32.png">
+<style>
+:root{--bg:#10141A;--surface:#171D26;--text:#EEF1F4;--accent:#C0A060;--accent2:#3A4A5C;--muted:#A8B0BC;--line:#2E3A4A;--bad:#E07A5F;--good:#9BC49B}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Georgia,serif;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 60px}
+.eyebrow{color:var(--accent);letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;font-weight:700}
+h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:.95;margin:.2em 0 .3em}h2{font-size:1.35rem;margin:0 0 12px;color:var(--accent)}
+.lede{color:var(--muted);font-size:1.08rem;max-width:780px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:2px;padding:22px;margin:18px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:12px 0 4px}
+input,select{width:100%;padding:11px;border-radius:2px;border:1px solid var(--line);background:#10141A;color:var(--text);font-size:1rem;font-variant-numeric:tabular-nums}
+button{background:var(--accent);color:#10141A;border:0;padding:12px 18px;border-radius:2px;font-weight:800;cursor:pointer;margin:6px 6px 6px 0}
+button.secondary{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.hero{text-align:center;padding:30px}.seal{display:inline-flex;align-items:center;justify-content:center;border:3px double var(--accent);border-radius:50%;width:180px;height:180px;line-height:1.1;padding:20px;font-weight:900;letter-spacing:.06em;color:var(--accent);transform:rotate(-4deg);background:rgba(192,160,96,.08);text-align:center}
+.big{font-size:clamp(2rem,5vw,3.2rem);color:var(--accent);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font-size:.95rem;font-variant-numeric:tabular-nums}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{color:var(--accent);text-transform:uppercase;font-size:.72rem;letter-spacing:.08em}
+.bar{height:18px;background:#0A0E14;border-radius:2px;overflow:hidden;display:flex}.bar span{display:block;height:100%}
+.small{font-size:.9rem;color:var(--muted)}.warn{color:var(--bad);font-weight:700}.good{color:var(--good);font-weight:700}
+textarea{width:100%;min-height:110px;background:#10141A;color:var(--text);border:1px solid var(--line);border-radius:2px;padding:10px}
+</style></head><body><div class="wrap">
+<p class="eyebrow">For Homebuyers Making an Offer · Slate &amp; Sovereign</p>
+<h1>The Earnest<br>Verdict</h1>
+<p class="lede">Earnest money is not a tip for the seller. It is cash you hand over to prove you are serious — and cash you can lose if the deal dies after your contingencies expire. Too little and you lose the house. Too much and you lose your leverage. This tool finds the smallest deposit that makes you competitive without overexposing you.</p>
+
+<div class="card"><h2>1 · The offer</h2>
+<div class="grid">
+<div><label>Purchase price ($)</label><input type="number" id="price" value="425000" min="0" step="1000">
+<label>Earnest money you plan to offer (%)</label><input type="number" id="earnestPct" value="2" min="0" max="20" step="0.25">
+<label>Liquid cash left AFTER down payment + closing costs ($)</label><input type="number" id="reserves" value="45000" min="0" step="1000">
+<label>Competing offers the seller expects</label><input type="number" id="competing" value="4" min="0" max="30" step="1"></div>
+<div><label>Contingency protection</label><select id="protection"><option value="full">Full — inspection + financing + appraisal intact</option><option value="partial">Partial — one contingency waived / shortened</option><option value="waived">Waived — earnest goes hard fast, little protection</option></select>
+<label>Honest chance you walk away (%)</label><input type="number" id="walkPct" value="10" min="0" max="100" step="1">
+<label>Days until earnest goes hard (non-refundable)</label><input type="number" id="hardDays" value="14" min="0" max="90" step="1">
+<label>Market norm for earnest in this area (%)</label><input type="number" id="normPct" value="1" min="0" max="10" step="0.25"></div>
+</div>
+<div style="margin-top:14px"><button class="secondary" id="presetBalanced">Preset: Balanced Suburb</button><button class="secondary" id="presetHot">Preset: Hot Bidding War</button><button class="secondary" id="presetRisky">Preset: Waived &amp; Risky</button></div>
+<p class="small">Rule of thumb being tested here: earnest only helps until it matches the seller's fear you will walk. Past that, extra dollars buy almost no extra credibility — they only buy you extra loss if you do walk.</p>
+</div>
+
+<div class="grid">
+<div class="card hero"><div class="seal" id="seal">GO<br>STRONG</div><p class="small" style="margin-top:16px" id="sealNote"></p></div>
+<div class="card"><h2>The headline numbers</h2><div class="big" id="earnestAmt">$8,500</div><p id="earnestNote" class="small"></p><hr style="border-color:var(--line)">
+<p>Recommended earnest: <b id="recAmt"></b> (<b id="recPct"></b>)<br>
+Expected loss if you price the walk risk honestly: <b id="expLoss"></b><br>
+Share of your post-close reserves at risk: <b id="reserveShare"></b><br>
+Competitiveness score: <b id="compScore"></b> / 100</p>
+<div class="bar"><span id="barEarnest" style="background:#C0A060"></span><span id="barRest" style="background:#3A4A5C"></span></div>
+<p class="small">Gold = earnest at risk · Slate = reserves left untouched if you close</p></div>
+</div>
+
+<div class="card"><h2>2 · Why this verdict</h2><p id="why"></p><p class="small">Competitiveness is scored against the local norm: matching the norm scores about 50, each full point above it adds credibility up to a cap, and a crowded field raises the bar. Risk is priced two ways — the dollars themselves, and what share of the cash you will still need after closing they consume. Waived contingencies do not make a big deposit braver. They make it more exposed, sooner.</p></div>
+
+<div class="card"><h2>3 · Earnest sensitivity — what each level buys and risks</h2>
+<table><thead><tr><th>Earnest %</th><th>Dollars</th><th>Expected loss*</th><th>% of reserves</th><th>Competitiveness</th></tr></thead><tbody id="sens"></tbody></table>
+<p class="small">*Expected loss = earnest × your walk-away chance, and only if the money has gone hard by then. It is a pricing tool, not a prediction. If you walk while contingencies still protect you, earnest is normally refundable — which is exactly why protection level changes the verdict.</p></div>
+
+<div class="card"><h2>Save &amp; share</h2>
+<label>Case name</label><input id="caseName" placeholder="e.g. Maple St — 4 offers expected">
+<button id="saveBtn">Save case</button><button class="secondary" id="copyBtn">Copy summary</button><button class="secondary" id="loadBtn">Load saved</button>
+<select id="savedList"></select><textarea id="summary" readonly></textarea></div>
+
+<p class="small">No backend. No accounts. Nothing leaves your device — saved cases live in localStorage. Earnest rules, hard dates, and forfeiture vary by state and by contract — read the deposit paragraph and the contingency deadlines in your actual offer, and confirm with your agent or attorney before you sign. General information, not legal advice.</p>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+const num=id=>parseFloat($(id).value)||0;
+function compScore(pct,norm,competing){
+  let s=50+(pct-norm)*18;
+  s-=Math.max(0,competing-3)*2;
+  if(pct>=norm) s+=Math.min(10,competing*1.5);
+  return Math.max(0,Math.min(100,Math.round(s)));
+}
+function calc(){
+ const price=num('price'), pct=num('earnestPct'), reserves=num('reserves'), competing=num('competing');
+ const walk=num('walkPct')/100, norm=num('normPct'), prot=$('protection').value, hard=num('hardDays');
+ const earnest=price*pct/100;
+ const share=reserves? earnest/reserves*100:0;
+ const exposureFactor=prot==='full'?0.35:prot==='partial'?0.7:1;
+ const expLoss=earnest*walk*exposureFactor;
+ const score=compScore(pct,norm,competing);
+ // Recommended: smallest 0.25% step that reaches score 70, capped by reserve safety (15% of reserves) unless waived
+ let recPct=norm; let found=false;
+ for(let p=0.25;p<=8;p+=0.25){ if(compScore(p,norm,competing)>=70){recPct=p;found=true;break;} }
+ if(!found) recPct=Math.min(5,norm+2);
+ const capPct=reserves&&price? (reserves*0.15)/price*100:recPct;
+ if(prot!=='full') recPct=Math.min(recPct,Math.max(norm,capPct));
+ recPct=Math.round(recPct*4)/4;
+ const recAmt=price*recPct/100;
+ let seal,note;
+ if(share>25||(prot==='waived'&&share>15)){seal='OVER-<br>EXPOSED';note='This deposit puts too much of the cash you need after closing at risk. A strong offer is not the same as an exposed one.';}
+ else if(score<45){seal='GO<br>LEAN';note='On these numbers a lean deposit is defensible — but in this field it may not win. Know that before you submit.';}
+ else if(pct<=recPct+0.25&&score>=60){seal='GO<br>STRONG';note='Competitive without being reckless. This is the zone earnest money is supposed to live in.';}
+ else if(pct>recPct+1){seal='OVER-<br>EXPOSED';note='You are offering well past the recommended level. The extra dollars buy little credibility and a lot of loss.';}
+ else {seal='GO<br>STANDARD';note='A standard, credible deposit. Not a weapon, not a weakness — which is often exactly right.';}
+ $('seal').innerHTML=seal; $('sealNote').textContent=note;
+ $('earnestAmt').textContent=fmt(earnest);
+ $('earnestNote').textContent=pct+'% of '+fmt(price)+' · goes hard in '+hard+' days · protection: '+prot+'.';
+ $('recAmt').textContent=fmt(recAmt); $('recPct').textContent=recPct+'%';
+ $('expLoss').textContent=fmt(expLoss);
+ $('reserveShare').textContent=share.toFixed(1)+'%';
+ $('compScore').textContent=score;
+ const tot=Math.max(earnest+reserves,1); $('barEarnest').style.width=(earnest/tot*100)+'%'; $('barRest').style.width=(reserves/tot*100)+'%';
+ $('why').textContent='At '+pct+'% you put '+fmt(earnest)+' on the table — '+share.toFixed(1)+'% of the '+fmt(reserves)+' you will have left after closing. Against a '+norm+'% local norm and '+competing+' competing offers, that scores '+score+'/100 for credibility. Honestly priced, your walk risk costs about '+fmt(expLoss)+' in expected terms ('+Math.round(walk*100)+'% walk chance, '+(prot==='full'?'discounted because your contingencies still protect the deposit':prot==='partial'?'partly discounted for partial protection':'undiscounted because waived contingencies expose it in full')+'). The recommended level is '+recPct+'% ('+fmt(recAmt)+') — the smallest step that reaches a competitive score without breaching a sane share of reserves.';
+ let s=''; [0.5,1,1.5,2,3,4,5].forEach(p=>{const a=price*p/100;const el=a*walk*exposureFactor;const sh=reserves?a/reserves*100:0;s+='<tr'+(p===pct?' style="color:var(--accent);font-weight:700"':'')+'><td>'+p+'%</td><td>'+fmt(a)+'</td><td>'+fmt(el)+'</td><td>'+sh.toFixed(1)+'%</td><td>'+compScore(p,norm,competing)+'</td></tr>'});
+ $('sens').innerHTML=s;
+ $('summary').value='The Earnest Verdict — '+seal.replace('<br>',' ')+'\nPrice '+fmt(price)+' · Earnest offered '+pct+'% = '+fmt(earnest)+'\nRecommended: '+recPct+'% = '+fmt(recAmt)+' · Competitiveness '+score+'/100\nShare of post-close reserves at risk: '+share.toFixed(1)+'% · Expected loss: '+fmt(expLoss)+'\nProtection: '+prot+' · Goes hard in '+hard+' days · Competing offers: '+competing;
+}
+['price','earnestPct','reserves','competing','walkPct','hardDays','normPct','protection'].forEach(id=>$(id).addEventListener('input',calc));
+function preset(p){if(p==='balanced'){ $('price').value=425000;$('earnestPct').value=2;$('reserves').value=45000;$('competing').value=4;$('protection').value='full';$('walkPct').value=10;$('hardDays').value=14;$('normPct').value=1; } if(p==='hot'){ $('price').value=650000;$('earnestPct').value=3;$('reserves').value=60000;$('competing').value=9;$('protection').value='partial';$('walkPct').value=8;$('hardDays').value=10;$('normPct').value=1; } if(p==='risky'){ $('price').value=525000;$('earnestPct').value=5;$('reserves').value=28000;$('competing').value=6;$('protection').value='waived';$('walkPct').value=22;$('hardDays').value=3;$('normPct').value=1; } calc();}
+$('presetBalanced').onclick=()=>preset('balanced');$('presetHot').onclick=()=>preset('hot');$('presetRisky').onclick=()=>preset('risky');
+function refreshSaved(){const k=Object.keys(localStorage).filter(x=>x.startsWith('earnest-'));$('savedList').innerHTML=k.map(x=>'<option>'+x.slice(8)+'</option>').join('')}
+$('saveBtn').onclick=()=>{const n=$('caseName').value.trim()||'Untitled';const data={};['price','earnestPct','reserves','competing','walkPct','hardDays','normPct','protection'].forEach(id=>data[id]=$(id).value);localStorage.setItem('earnest-'+n,JSON.stringify(data));refreshSaved();alert('Saved')};
+$('loadBtn').onclick=()=>{const n=$('savedList').value;if(!n)return;const d=localStorage.getItem('earnest-'+n);if(d){const o=JSON.parse(d);Object.keys(o).forEach(k=>{if($(k))$(k).value=o[k]});calc()}};
+$('copyBtn').onclick=()=>{$('summary').select();navigator.clipboard&&navigator.clipboard.writeText($('summary').value)};
+calc();refreshSaved();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script></body></html>
